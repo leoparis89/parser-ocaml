@@ -1,0 +1,4 @@
+(executable
+ (public_name js_parser)
+ (name main)
+ (libraries js_parser))
