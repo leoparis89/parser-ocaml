@@ -11,7 +11,7 @@ end
 open Js_parser
 open Tokenizer
 
-let pattern = re_pattern "hello ([a-z]+)"
+let pattern = re_pattern "^hello ([a-z]+)$"
 let str = "hello world"
 
 (* The tests *)
