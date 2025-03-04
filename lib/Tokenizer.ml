@@ -18,6 +18,14 @@ let match_and_capture pattern str =
 (* Example usage *)
 
 type token = Semi_colon | String
+type matcher = { pattern : Re.re; token : token }
+
+let matchers =
+  [
+    { pattern = re_pattern "^([a-z]+)$"; token = String };
+    { pattern = re_pattern "^;$"; token = Semi_colon };
+  ]
+
 type t = { _string : string; cursor : int }
 
 let is_EOF t = t.cursor >= String.length t._string
