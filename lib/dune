@@ -1,2 +1,3 @@
 (library
- (name js_parser))
+ (name js_parser)
+ (libraries re))
