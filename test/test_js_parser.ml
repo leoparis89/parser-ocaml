@@ -2,15 +2,24 @@
 
 (* A module with functions to test *)
 module To_test = struct
-  let lowercase = String.lowercase_ascii
+  (* let lowercase = String.lowercase_ascii *)
   let capitalize = String.capitalize_ascii
   let str_concat = String.concat ""
   let list_concat = List.append
 end
 
+open Js_parser
+open Tokenizer
+
+let pattern = re_pattern "hello ([a-z]+)"
+let str = "hello world"
+
 (* The tests *)
-let test_lowercase () =
-  Alcotest.(check string) "same string" "hello!" (To_test.lowercase "hELLO!")
+
+let test_regex () =
+  Alcotest.(check (option string))
+    "regex simple test" (Some "world")
+    (match_and_capture pattern str)
 
 let test_capitalize () =
   Alcotest.(check string) "same string" "World." (To_test.capitalize "world.")
@@ -32,7 +41,7 @@ let () =
     [
       ( "string-case",
         [
-          test_case "Lower case" `Quick test_lowercase;
+          test_case "Simple regex test" `Quick test_regex;
           test_case "Capitalization" `Quick test_capitalize;
         ] );
       ("string-concat", [ test_case "String mashing" `Quick test_str_concat ]);
