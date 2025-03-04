@@ -30,3 +30,9 @@ type t = { _string : string; cursor : int }
 
 let is_EOF t = t.cursor >= String.length t._string
 let has_more_tokens t = t.cursor < String.length t._string
+
+let foo pattern str (t : t) =
+  match match_and_capture pattern str with
+  | Some result ->
+      (Some result, { t with cursor = t.cursor + String.length result })
+  | None -> (None, t)
