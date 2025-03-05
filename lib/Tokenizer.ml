@@ -49,14 +49,11 @@ let rec get_next_token tokenizer (token_matchers : matcher list) =
     let rec loop_matchers t (token_matchers : matcher list) str =
       match token_matchers with
       | [] -> None
-      | { pattern; token = None } :: _matchers ->
-          (* increments cursor *)
-          let _token_value = match_token_pattern pattern str t in
-          get_next_token t token_matchers
-      | { pattern; token = Some token } :: matchers -> (
-          let token_value = match_token_pattern pattern str t in
-          match token_value with
-          | None -> loop_matchers t matchers str
-          | Some result -> Some { token; value = result })
+      | { pattern; token } :: _matchers -> (
+          let extracted_value = match_token_pattern pattern str t in
+          match (token, extracted_value) with
+          | None, _ -> get_next_token t matchers
+          | _, None -> loop_matchers t matchers str
+          | Some token, Some value -> Some { token; value })
     in
     loop_matchers tokenizer token_matchers remaining_string
