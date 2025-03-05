@@ -10,4 +10,8 @@ type t = {
 let make string =
   { _string = string; lookahead = None; tokenizer = Tokenizer.make string }
 
-let parse parser = parser.lookahead <- Tokenizer.get_next_token parser.tokenizer
+let program _t = Program []
+
+let parse parser =
+  parser.lookahead <- Tokenizer.get_next_token parser.tokenizer;
+  program parser
