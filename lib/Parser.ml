@@ -9,6 +9,7 @@ type t = {
 
 let make () = { _string = ""; lookahead = None; tokenizer = Tokenizer.make "" }
 let program _t = Program []
+let expression_statement parser = None
 
 let parse program parser =
   parser.lookahead <- Tokenizer.get_next_token parser.tokenizer;
