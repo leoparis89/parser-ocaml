@@ -26,7 +26,7 @@ let matchers =
     { pattern = re_pattern "^;$"; token = Some Semi_colon };
   ]
 
-type t = { _string : string; cursor : int }
+type t = { _string : string; mutable cursor : int }
 
 let is_EOF t = t.cursor >= String.length t._string
 let has_more_tokens t = t.cursor < String.length t._string
@@ -34,14 +34,16 @@ let has_more_tokens t = t.cursor < String.length t._string
 let match_token pattern str (t : t) =
   match match_and_capture pattern str with
   | Some result ->
-      (Some result, { t with cursor = t.cursor + String.length result })
-  | None -> (None, t)
+      (* let increment c = c.count <- c.count + 1 *)
+      t.cursor <- t.cursor + String.length result;
+      Some result
+  | None -> None
 
 let rec get_next_token t (matchers : matcher list) =
   match matchers with
   | [] -> (None, t)
   | matcher :: matchers -> (
-      let token_value, t = match_token matcher.pattern t._string t in
+      let token_value = match_token matcher.pattern t._string t in
       match token_value with
       | Some result -> (Some (matcher.token, result), t)
       | None -> get_next_token t matchers)
