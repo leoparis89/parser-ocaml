@@ -59,3 +59,5 @@ let rec get_next_token tokenizer (token_matchers : matcher list) =
           | Some token, Some value -> Some { token; value })
     in
     loop_matchers tokenizer token_matchers remaining_string
+
+let make _string = { _string; cursor = 0 }
