@@ -13,7 +13,12 @@ let test_regex () =
     "regex simple test" (Some "world")
     (Regex.match_and_capture pattern str)
 
-let test_parser () = assert true
+open Parser
+
+let test_parser () =
+  let result = Parser.make () |> Parser.parse "" in
+  let expected = Program [] in
+  assert (result = expected)
 
 (* Run it *)
 let () =
@@ -23,6 +28,6 @@ let () =
       ( "string-case",
         [
           test_case "Simple regex test" `Quick test_regex;
-          test_case "Test parser" `Quick test_parser;
+          test_case "Test parser on empty program" `Quick test_parser;
         ] );
     ]

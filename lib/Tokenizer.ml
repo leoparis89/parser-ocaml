@@ -29,7 +29,7 @@ let matchers =
     { pattern = Regex.re_pattern "^;$"; token = Some Semi_colon };
   ]
 
-type t = { _string : string; mutable cursor : int }
+type t = { mutable _string : string; mutable cursor : int }
 
 let is_EOF t = t.cursor >= String.length t._string
 let has_more_tokens t = t.cursor < String.length t._string
@@ -62,3 +62,7 @@ let rec get_next_token tokenizer (token_matchers : matcher list) =
 
 let get_next_token tokenizer = get_next_token tokenizer matchers
 let make _string = { _string; cursor = 0 }
+
+let init string tokenizer =
+  tokenizer._string <- string;
+  tokenizer.cursor <- 0
