@@ -11,7 +11,7 @@ end
 open Js_parser
 open Tokenizer
 
-let pattern = re_pattern "^hello ([a-z]+)$"
+let pattern = Regex.re_pattern "^hello ([a-z]+)$"
 let str = "hello world"
 
 (* The tests *)
@@ -19,7 +19,7 @@ let str = "hello world"
 let test_regex () =
   Alcotest.(check (option string))
     "regex simple test" (Some "world")
-    (match_and_capture pattern str)
+    (Regex.match_and_capture pattern str)
 
 let test_capitalize () =
   Alcotest.(check string) "same string" "World." (To_test.capitalize "world.")
